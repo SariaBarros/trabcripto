@@ -6,6 +6,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
+#include "operaçoes.h"
 
 int main(int argc, char *argv[]){
 
@@ -15,6 +16,12 @@ int main(int argc, char *argv[]){
 
     switch(a){
         case 'F'://Fabio
+            do{
+                printf("T: ");
+                scanf(" %c", &Tarefa)
+                printf("\n");
+                Fabio(Tarefa);
+            }while(Tarefa!='T');
         break;
 
         case 'P': //Patricia
