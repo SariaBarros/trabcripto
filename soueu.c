@@ -6,19 +6,20 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
-#include "operaçoes.h"
+#include"operacoes.h"
 
 int main(int argc, char *argv[]){
 
     char *op;
     op = argv[1];
     char a=op[0];
+    char Tarefa;
 
     switch(a){
         case 'F'://Fabio
             do{
                 printf("T: ");
-                scanf(" %c", &Tarefa)
+                scanf(" %c", &Tarefa);
                 printf("\n");
                 Fabio(Tarefa);
             }while(Tarefa!='T');
