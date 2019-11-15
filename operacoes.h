@@ -1,3 +1,3 @@
 //biblioteca
-void Fabio(char);
+void Fabio();
 void Identificar(long int n, long int s, long int v);

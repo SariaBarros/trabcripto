@@ -13,16 +13,11 @@ int main(int argc, char *argv[]){
     char *op;
     op = argv[1];
     char a=op[0];
-    char Tarefa;
+   
 
     switch(a){
         case 'F'://Fabio
-            do{
-                printf("T: ");
-                scanf(" %c", &Tarefa);
-                printf("\n");
-                Fabio(Tarefa);
-            }while(Tarefa!='T');
+            Fabio();
         break;
 
         case 'P': //Patricia
