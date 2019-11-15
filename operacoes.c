@@ -1,15 +1,25 @@
 #include"operacoes.h"
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 
 void Fabio(char Tarefa){
-	int p=0, q=0;
+	int p=0, q=0, r;
 	long int s, v, n;
+	
 
 	switch(Tarefa){
 		case 'I': 
 			scanf("%ld %ld %ld", &n, &s, &v);
 			Identificar(n, s, v);
+		
+		break;
+
+		case 'X':
+				srand(time(NULL));
+				r = rand();
+				printf("C %d\n", r);
+		
 		break;
 	}
 }
