@@ -4,14 +4,13 @@
 #include<time.h>
 
 void Fabio(){
-	int p=0, q=0;
 	long int s, v, n, r; //valores usados para identificar
 	int b;//bit usado para calcular a resposta
 	int aux=0, resp = 0, val=0;
 	char Tarefa;
 
-	while(Tarefa!='T'){
-        printf("T: ");
+	do{
+   //     printf("T: ");
         scanf(" %c", &Tarefa);
         	
 		switch(Tarefa){
@@ -48,15 +47,19 @@ void Fabio(){
 				scanf("%d", &b);	
 				if(b==0||b==1)
 					val = 1;
-				if(aux && resp==0 && val){
+				if(aux==1 && resp==0 && val ==1){
 					Responder(b, r, s, n);
 					resp = 1;
 				}
 				else
-					printf("E\n");					
+					printf("E\n");	
+
+			resp = 0;	
+			break;	
+
 		}
 
-	}
+	}while(Tarefa!='T');
 }
 
 //função identificar: utilizada por fabio
@@ -88,15 +91,19 @@ void Preparar (long int r, long int n){
 	__uint128_t R;
 	R = r;
 
-	r = r%n;
-	while(R>0){
-		if(R%2==1)
-			resto = (resto+r)%n;
-		r = (r*2)%n;
-		R = R/2;
-		}
-	x = resto % n;
-	printf("C %ld\n", x);
+	if(mdc(r, n)==1){
+		r = r%n;
+		while(R>0){
+			if(R%2==1)
+				resto = (resto+r)%n;
+			r = (r*2)%n;
+			R = R/2;
+			}
+		x = resto % n;
+		printf("C %ld\n", x);
+	}
+	else
+		printf("E\n");
 
 	return;
 }
@@ -108,15 +115,18 @@ void Responder (int b, long int r, long int s, long int n){
 	if(b==0){
 		printf("C %ld", r);
 	}
-	else{                 //xb = r · s mod n
-		r = r%n;
-		while(s>0){
-			if(s%2==1)
-				resto = (resto+r)%n;
-			r = (r*2)%n;
-			s = s/2;
-			}
-		x = resto % n;
+	else{
+		x = ((__uint128_t)r*s)%n;
+
 		printf("C %ld\n", x);
 	}
+}
+
+
+long int mdc(long int a, long int b){
+
+	if(b==0)
+		return a;
+	else
+		return mdc(b, a%b);
 }
