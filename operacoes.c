@@ -53,6 +53,9 @@ void Fabio(){
 				printf("C\n");
 			break; 
 
+			default:
+			break;
+
 		}
 
 	}while(Tarefa!='T');
@@ -113,13 +116,15 @@ long int mdc(__uint128_t a, __uint128_t b){
 
 void Gerar_Numero(long int n){
 	long int MAX, MIN;
-	MAX =  n-1;
+	int al;
+	MAX =  n;
 	MIN = 2;
-
 	srand(time(NULL));
 
 	while(MIN != MAX){
-		if(rand()%2 == 0){
+		al=rand();
+
+		if(al%2 == 0){
 			MAX = MAX/2;
 		}
 		else
@@ -128,5 +133,129 @@ void Gerar_Numero(long int n){
 
 	printf("C %ld\n", MAX);
 
+	return;
+}
+
+void Patricia(){
+	char Tarefa;
+	long int n, v, x, xb;
+	int t, bit; //quantidade de vezes que patricia quer a resposta c
+	int validado = 1;
+	int aux;
+
+	do{
+		scanf(" %c", &Tarefa);
+
+		switch (Tarefa){
+			case 'I':
+				scanf("%ld %ld %d", &n, &v, &t);
+				Inicializar(t);
+				aux = t;
+
+			break;
+
+			case 'Q':
+				scanf("%ld", &x);
+				if(validado){
+					bit = Gerar_bit(x);
+					printf("C %d\n", bit);
+				}
+				else
+					printf("E\n");
+					
+				validado = 0;
+			break;
+
+			case 'V':
+				scanf("%ld", &xb);
+				if(t>0)
+					printf("C %d\n", t);
+				else
+					printf("E %d\n", t);
+				t--;
+				validado = 1;
+			break;
+		
+			case 'C':
+				scanf("%ld %d %ld", &x, &bit, &xb);
+				Testar_Compromisso(x, bit, xb, v, n, &t, aux);
+			break;
+			
+			case 'T':
+				printf("C\n");
+			break;
+
+			default:
+			break;
+		}
+
+	}while(Tarefa != 'T');
+}
+
+void Inicializar(int t){
+	if(3<=t && t<=50)
+		printf("C\n");
+	else
+		printf("E\n");
+}
+
+int Gerar_bit(long int x){
+	long int MAX, MIN;
+	int al;
+	MAX =  x;
+	MIN = 2;
+	srand(time(NULL));
+
+	while(MIN != MAX){
+		al=rand();
+
+		if(al%2 == 0){
+			MAX = MAX/2;
+		}
+		else
+			MIN = MAX/2;		
+	}
+
+	return  MAX%2;
+}
+
+void Testar_Compromisso(long int x,int bit, long int xb, long int v, long int n, int *t, int aux){
+	
+	long int teste;
+
+
+	if(*t==0)
+		printf("E %d\n", *t);
+
+	else{
+		if(bit==0){
+			teste = ((((__uint128_t)xb*xb)-x)%n); //atenção
+			if(teste==0){
+				*t = *t - 1;
+				printf("C %d\n", *t);
+			}	
+			else{
+				printf("E %d\n", *t);
+				*t = aux;
+			}
+		}
+		else if(bit==1){
+			teste = (((__uint128_t)v*xb*xb)-x)%n;
+			if(teste==0){
+				*t = *t - 1;
+				printf("C %d\n", *t);
+			}
+			else{
+				printf("E %d\n", *t);
+				*t = aux;
+			}
+		}	
+		else{
+			//*t = *t - 1;
+			printf("E %d\n", *t);
+			*t = aux;
+		}
+	}
+			
 	return;
 }

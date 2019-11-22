@@ -21,6 +21,7 @@ int main(int argc, char *argv[]){
         break;
 
         case 'P': //Patricia
+            Patricia();
         break;
 
         case 'T': //Teodoro

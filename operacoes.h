@@ -12,3 +12,8 @@ void Preparar();
 void Responder ();
 long int mdc();
 void Gerar_Numero();
+
+void Patricia();
+void Inicializar(); // vou usar mesmo?
+int Gerar_bit();
+void Testar_Compromisso();
