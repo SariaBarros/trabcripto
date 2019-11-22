@@ -19,8 +19,7 @@ void Fabio(){
 
 			case 'X':
 				if(identificou){
-					
-					//gerar número aleatório
+					Gerar_Numero(n);
 				}
 				else
 					printf("E\n");
@@ -110,4 +109,24 @@ long int mdc(__uint128_t a, __uint128_t b){
 		return a;
 	else
 		return mdc(b, a%b);
+}
+
+void Gerar_Numero(long int n){
+	long int MAX, MIN;
+	MAX =  n-1;
+	MIN = 2;
+
+	srand(time(NULL));
+
+	while(MIN != MAX){
+		if(rand()%2 == 0){
+			MAX = MAX/2;
+		}
+		else
+			MIN = MAX/2;		
+	}
+
+	printf("C %ld\n", MAX);
+
+	return;
 }
