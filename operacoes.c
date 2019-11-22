@@ -1,61 +1,58 @@
 #include"operacoes.h"
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+
 
 void Fabio(){
 	long int s, v, n, r; //valores usados para identificar
 	int b;//bit usado para calcular a resposta
-	int aux=0, resp = 0, val=0;
+	int identificou = 0, respondeu;
 	char Tarefa;
 
 	do{
-   //     printf("T: ");
         scanf(" %c", &Tarefa);
         	
 		switch(Tarefa){
 			case 'I': 
 				scanf("%ld %ld %ld", &n, &s, &v);
 				Identificar(n, s, v);
-				aux = 1;
+				identificou = 1;
 			break;
 
 			case 'X':
-				if(aux){
-					srand(time(NULL));
-					r = rand();
-					printf("C %ld\n", r);
+				if(identificou){
+					
+					//gerar número aleatório
 				}
 				else
 					printf("E\n");
 			break;
 
 			case 'P':
-				if(aux){
+				
+				if(identificou){
+					r = 0;
 					scanf("%ld", &r);
-					Preparar(r, n);
+					Preparar(r, n); 
+					respondeu = 1;
 				}
 				else
 					printf("E\n");	
 			break;
 
-			case 'T':
-				printf("C\n");
-			break; 
-
 			case 'R':
 				scanf("%d", &b);	
-				if(b==0||b==1)
-					val = 1;
-				if(aux==1 && resp==0 && val ==1){
+
+				if(identificou && respondeu){
 					Responder(b, r, s, n);
-					resp = 1;
+					respondeu = 0;
 				}
 				else
 					printf("E\n");	
-
-			resp = 0;	
+				
 			break;	
+
+			case 'T':
+				printf("C\n");
+			break; 
 
 		}
 
@@ -64,19 +61,9 @@ void Fabio(){
 
 //função identificar: utilizada por fabio
 void Identificar(long int n, long int s, long int v){
-	__uint128_t B, A, R;
-	long long int r=0, s1;
-	s1=s;
-	s = s%n;
-	while(v>0){
-		if(v%2==1)
-			r = (r+s)%n;
-		s = (s*2)%n;
-		v = v/2;
-		}
-	B = r % n;
-	A = ((B%n) * (s1%n))%n;
-	R = ((A%n)-(1%n))%n;
+	long int R;
+
+	R = (((__uint128_t)s*s*v)-1)%n;
 	
 	if(R==0)
 		printf("C\n");
@@ -87,43 +74,37 @@ void Identificar(long int n, long int s, long int v){
 }
 //função Preparar: utilizada por Fabio
 void Preparar (long int r, long int n){
-	long int x, resto=0;
-	__uint128_t R;
-	R = r;
+	long int x, resto;
+	resto = mdc(r,n);
+	
 
-	if(mdc(r, n)==1){
-		r = r%n;
-		while(R>0){
-			if(R%2==1)
-				resto = (resto+r)%n;
-			r = (r*2)%n;
-			R = R/2;
-			}
-		x = resto % n;
+	if(resto==1 && r<n){
+		x = (((__uint128_t)r*r))%n;
 		printf("C %ld\n", x);
 	}
 	else
 		printf("E\n");
-
 	return;
 }
 
 //Função Responder: utilizada por Fabio
 void Responder (int b, long int r, long int s, long int n){
-	long int resto=0, x;
+	long int x;
 
-	if(b==0){
-		printf("C %ld", r);
+	if(b == 0){
+		printf("C %ld\n", r);
 	}
-	else{
-		x = ((__uint128_t)r*s)%n;
+	else if(b==1) {
+		x = (((__uint128_t)r*s))%n;
 
 		printf("C %ld\n", x);
 	}
+	else
+		printf("E\n");
 }
 
 
-long int mdc(long int a, long int b){
+long int mdc(__uint128_t a, __uint128_t b){
 
 	if(b==0)
 		return a;

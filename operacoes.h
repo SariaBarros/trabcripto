@@ -1,6 +1,11 @@
 //biblioteca
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+
 void Fabio();
-void Identificar(long int n, long int s, long int v);
-void Preparar(long int r, long int n);
-void Responder (int b, long int r, long int s, long int n);
+void Identificar();
+void Preparar();
+void Responder ();
 long int mdc();
