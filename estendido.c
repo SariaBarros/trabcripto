@@ -2,50 +2,49 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int MDC(int a, int b){
-    if(b==0 && a>0)
-        return a;
+void EuclidesE(long int a, long int b){
+    long int M[1000][1000];
+   // long int q1, q2;
+    int i = 2, t = 2;
+
     
-    else{
-        if(a>0)
-            return MDC(b, a%b);
-        else{
-            while(a<0){
-                a=a+b;
-            }
-            return MDC(b, a%b); 
-        }
-    }
-}
+    M[0][0] = a;
+    M[1][0] = b;
+    M[0][2] = 1; 
+    M[1][2] = 0; 
+    M[0][3] = 0;
+    M[1][3] = 1;
 
-int EuclidesE(int a, int b){
-    int oR, nR, oA, nA, oB, nB; //oR="old resto"; nR="new resto"; oA:"antigo coeficiente de A"
-    int auxA, auxB, auxR;
-    oR = a; nR = b; oA = 1; nA = 0; oB = 0; nB = 1; 
-    while(nR != 0){
-        auxA = nA; 
-        nA = oA - ((oR/nR)*nA);
-        auxB = nB;
-        nB = oB - ((oR/nR)*nB);
-        auxR = nR;
-        nR = oR - ((oR/nR)*nR);
+    do{
+        M[i][0]= M[i-2][0] % M[i-1][0];
+        M[i][1]= M[i-2][0] / M[i-1][0];
+        i++;
+    }while(M[i-3][0] % M[i-2][0] != 0);
+
+    while (t<=i){
+        M[t][2] = M[t-2][2] - (M[t-1][2]*M[t][1]);
+        M[t][3] = M[t-2][3] - (M[t-1][3]*M[t][1]);
+        t++;
+    }
         
-        oA = auxA;
-        oB = auxB;
-        oR = auxR;
-    }
+   /* for(int j=0; j<i; j++){
+        for(int n=0; n<4; n++)
+            printf("%ld ", M[j][n]);
+        printf("\n");    
+    }*/
 
-        printf("a:%d e b: %d\n", nA, nB);
-    return 1;
+    printf("%ld\n", M[i-2][2]);
+  
+
+    //return M[0][0];
 }
 
 int main(void){
-    int a, b, r;
-    scanf("%d %d", &a, &b);
-
-    r = EuclidesE(a, b);
-
-    printf("%d\n", r);
+    long int a, b ;
+    
+    scanf("%ld %ld", &a, &b);
+   
+    EuclidesE(a, b);
 
     return 0;
 }

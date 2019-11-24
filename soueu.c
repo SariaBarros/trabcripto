@@ -16,15 +16,16 @@ int main(int argc, char *argv[]){
    
 
     switch(a){
-        case 'F'://Fabio
+        case 'F':
             Fabio();
         break;
 
-        case 'P': //Patricia
+        case 'P':
             Patricia();
         break;
 
         case 'T': //Teodoro
+            Teodoro();
         break;
 
         case 'E': //Ester

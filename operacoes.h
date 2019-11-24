@@ -11,9 +11,15 @@ void Identificar();
 void Preparar();
 void Responder ();
 long int mdc();
-void Gerar_Numero();
+long int Gerar_Numero(); //tarefa iniciar
 
 void Patricia();
-void Inicializar(); // vou usar mesmo?
+void Inicializar();
 int Gerar_bit();
 void Testar_Compromisso();
+
+void Teodoro();
+long int Inicializar_Teodoro();
+void Autenticar();
+long int EuclidesE();
+void Forjar();
