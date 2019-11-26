@@ -23,3 +23,8 @@ long int Inicializar_Teodoro();
 void Autenticar();
 long int EuclidesE();
 void Forjar();
+
+void Ester();
+void Inicializar_Ester();
+void Preparar_Ester();
+void Sorte();

@@ -27,13 +27,13 @@ void EuclidesE(long int a, long int b){
         t++;
     }
         
-   /* for(int j=0; j<i; j++){
+   for(int j=0; j<i; j++){
         for(int n=0; n<4; n++)
             printf("%ld ", M[j][n]);
         printf("\n");    
-    }*/
+    }
 
-    printf("%ld\n", M[i-2][2]);
+    
   
 
     //return M[0][0];

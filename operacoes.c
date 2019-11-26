@@ -92,7 +92,7 @@ void Preparar (long int r, long int n){
 
 //Função Responder: utilizada por Fabio
 void Responder (int b, long int r, long int s, long int n){
-	long int x;
+	long int x;//x==xb
 
 	if(b == 0){
 		printf("C %ld\n", r);
@@ -107,7 +107,7 @@ void Responder (int b, long int r, long int s, long int n){
 }
 
 
-long int mdc(__uint128_t a, __uint128_t b){
+long int mdc(long int a,long int  b){
 
 	if(b==0)
 		return a;
@@ -118,7 +118,7 @@ long int mdc(__uint128_t a, __uint128_t b){
 long int Gerar_Numero(long int n){
 	long int MAX, MIN;
 	int al;
-	MAX =  n;
+	MAX =  n-1;
 	MIN = 2;
 	srand(time(NULL));
 
@@ -141,6 +141,7 @@ void Patricia(){
 	int t, bit; //quantidade de vezes que patricia quer a resposta c
 	int validado = 1;
 	int aux;
+	int iniciou = 0;
 
 	do{
 		scanf(" %c", &Tarefa);
@@ -150,12 +151,12 @@ void Patricia(){
 				scanf("%ld %ld %d", &n, &v, &t);
 				Inicializar(t);
 				aux = t;
-
+				iniciou = 1;
 			break;
 
 			case 'Q':
 				scanf("%ld", &x);
-				if(validado){
+				if(iniciou && validado){
 					bit = Gerar_bit(x);
 					printf("C %d\n", bit);
 				}
@@ -228,7 +229,7 @@ void Testar_Compromisso(long int x,int bit, long int xb, long int v, long int n,
 
 	else{
 		if(bit==0){
-			teste = ((((__uint128_t)xb*xb)-x)%n); //atenção
+			teste = ((((__uint128_t)xb*xb)-x)%n); //checar se xb² é congruente a x mod n
 			if(teste==0){
 				*t = *t - 1;
 				printf("C %d\n", *t);
@@ -264,6 +265,7 @@ void Teodoro(){
 	int p, q;
 	long int n, s;
 
+
 	do{
         scanf(" %c", &Tarefa);
         	
@@ -280,7 +282,10 @@ void Teodoro(){
 
 			case 'F':
 				scanf("%ld", &s);
-				Forjar(s, n);				
+				if(s<n)
+					Forjar(s, n);
+				else
+					printf("E\n");					
 			break;	
 
 			case 'T':
@@ -289,7 +294,6 @@ void Teodoro(){
 
 			default:
 			break;
-
 		}
 
 	}while(Tarefa!='T');
@@ -305,13 +309,15 @@ void Autenticar(long int n){
 	s = Gerar_Numero(n);
 	v = EuclidesE(s*s, n);
 
-	printf("C %ld %ld\n", v, s);
+	if(v!=0)
+		printf("C %ld %ld\n", v, s);
+	else
+		printf("E\n");	
 
 }
 long int EuclidesE(long int a, long int b){
     long int M[1000][1000];
     int i = 2, t = 2;
-
     
     M[0][0] = a;
     M[1][0] = b;
@@ -331,18 +337,112 @@ long int EuclidesE(long int a, long int b){
         M[t][3] = M[t-2][3] - (M[t-1][3]*M[t][1]);
         t++;
     }
-        
-
-    return M[i-2][2];
+    
+	if(M[i-2][0]==1)    
+	    return M[i-2][2];
+	else
+		return 0;
+		
 }
 
 void Forjar(long int s, long int n){
 	long int v;
 	v = EuclidesE(s*s, n);
 
-	while(v<0){
-		v = v+n;
+	if(v==0)
+		printf("E\n");
+	else{
+		while(v<0){
+			v = v+n;
+		}
+		printf("C %ld\n", v);
 	}
 
-	printf("C %ld\n", v);
+	return;			
+}
+
+void Ester(){
+	char Tarefa;
+	long int n, v, x0, x1;
+	int bit;
+
+	do{
+        scanf(" %c", &Tarefa);
+        	
+		switch(Tarefa){
+			case 'I': 
+				scanf("%ld %ld", &n, &v);
+				Inicializar_Ester(v,n);
+			break;
+
+			case 'P':
+				scanf("%d", &bit);
+				Preparar_Ester(bit, n);
+			break;
+
+			case 'S':
+					scanf("%ld %ld", &x0, &x1);
+					Sorte(x0, x1, n, v);		
+			break;	
+
+			case 'T':
+				printf("C\n");
+			break; 
+
+			default:
+			break;
+
+		}
+
+	}while(Tarefa!='T');
+}
+
+void Inicializar_Ester(long int v, long int n){
+	int r = mdc(v, n);
+
+	if(r==1 && v < n)
+		printf("C\n");
+	else
+		printf("E\n");	
+}
+
+void Preparar_Ester(int bit, long int n, long int v){
+	long int xb, x;//x= xb²
+	int t=1, aux=1;
+	long int teste;
+
+	xb = Gerar_Numero(n);
+	while(mdc(xb, n)!=1){
+		xb = Gerar_Numero(n);
+	}
+	
+	if(bit == 0){
+		x = ((xb%n)*(xb%n))%n; //xb == r
+	}
+	else if(bit ==1){
+		x = (((xb*xb)%n)*(v%n))%n;
+		teste = (((__uint128_t)v*xb*xb)-x)%n;
+		//printf("teste: %ld\n", teste);
+		x = (((xb*xb)%n)*(v%n))%n;
+	}
+
+	printf("C %ld %ld\n", x, xb);
+
+//teste
+
+	Testar_Compromisso(x, bit, xb, v, n, &t, aux);
+
+}
+
+void Sorte(long int x0, long int x1, long int n, long int v){
+	long int s, s2, teste;
+	__uint128_t aux;
+
+	s2 = EuclidesE(x0, n);
+	while(s2<0){
+		s2 = s2+n;
+	}	
+	s = ((__uint128_t)x1*s2)%n;
+
+	printf("C %ld\n", s);
 }
